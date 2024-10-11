@@ -1,5 +1,5 @@
 import pandas as pd
-from flask import Flask, request, render_template, send_file, jsonify
+from flask import Flask, request, render_template, send_from_directory, jsonify,send_file
 import os
 
 app = Flask(__name__)
@@ -8,7 +8,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return send_from_directory('.', 'index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
