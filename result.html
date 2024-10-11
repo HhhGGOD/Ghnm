@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>处理结果</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>处理结果</h1>
+        <p id="result-message"></p>
+        <a id="download-link" href="" style="display: none;">下载处理结果</a>
+    </div>
+    <script>
+        const message = "{{ message }}";
+        const downloadLink = "{{ download_link }}";
+        document.getElementById('result-message').textContent = message;
+        if (downloadLink) {
+            const link = document.getElementById('download-link');
+            link.href = downloadLink;
+            link.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
