@@ -1,16 +1,14 @@
 import pandas as pd
-from flask import Flask, request, send_file, jsonify, render_template_string
+from flask import Flask, request, render_template, send_file, jsonify
 import os
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# 直接渲染根目录的 HTML 文件
 @app.route('/')
 def index():
-    with open('index.html', 'r', encoding='utf-8') as f:
-        return render_template_string(f.read())
+    return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -36,13 +34,10 @@ def process_data():
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
     # 读取 Excel 文件
-    try:
-        if filename.endswith('.xlsx'):
-            df = pd.read_excel(filepath, engine='openpyxl')
-        else:
-            df = pd.read_excel(filepath)
-    except Exception as e:
-        return jsonify({"error": f"读取文件时出错: {str(e)}"}), 500
+    if filename.endswith('.xlsx'):
+        df = pd.read_excel(filepath, engine='openpyxl')
+    else:
+        df = pd.read_excel(filepath)
 
     # 根据选择筛选数据
     if choice == "option1":
@@ -58,14 +53,14 @@ def process_data():
     filtered_data = pd.concat([filtered_data, avg_row], ignore_index=True)
 
     # 导出处理后的数据
-    output_file = os.path.join(app.config['UPLOAD_FOLDER'], f"{custom_name}.xlsx")
+    output_file = f"{custom_name}.xlsx"
     filtered_data.to_excel(output_file, index=False)
 
     return jsonify({"download_link": output_file}), 200
 
 @app.route('/download/<filename>', methods=['GET'])
 def download_file(filename):
-    return send_file(os.path.join(app.config['UPLOAD_FOLDER'], filename), as_attachment=True)
+    return send_file(filename, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
