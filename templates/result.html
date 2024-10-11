@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>选择筛选条件</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>选择筛选条件</h1>
+    <form action="" method="post">
+        <input type="hidden" name="table_name" value="{{ filename.split('.')[0] }}">
+        <div>
+            <label><input type="radio" name="filter_option" value="option1" required> 选项1</label>
+            <label><input type="radio" name="filter_option" value="option2"> 选项2</label>
+            <label><input type="radio" name="filter_option" value="option3"> 选项3</label>
+        </div>
+        <button type="submit">筛选数据并下载</button>
+    </form>
+    <a href="/">返回上传页面</a>
+</body>
+</html>
