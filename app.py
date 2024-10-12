@@ -46,6 +46,8 @@ def process_data():
         filtered_data = df[(df['总工资'] > 200000) & (df['总工资'] < 250000)]
     elif choice == "option3":
         filtered_data = df[(df['总工资'] < 100000)]
+    elif choice == "option4":
+        filtered_data = df[(df['级别'] > 4)]
 
     # 计算工资的平均值
     avg_salary = filtered_data['总工资'].mean() if not filtered_data.empty else 0
@@ -63,4 +65,4 @@ def download_file(filename):
     return send_file(filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
